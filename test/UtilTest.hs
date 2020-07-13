@@ -14,7 +14,7 @@ main = hspec $ do
             let input = "hello_world"
             (cToPascal input) `shouldBe` expected
 
-        it "cToPascal `fuck_you_trump` should equals `fuckYouTrump`" $ do
+        it "cToPascal `fuck_you_trump` should equals `FuckYouTrump`" $ do
             let expected = "FuckYouTrump"
             let input = "fuck_you_trump"
             (cToPascal input) `shouldBe` expected
