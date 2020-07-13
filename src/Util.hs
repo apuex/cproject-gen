@@ -12,6 +12,10 @@ cToCamel str = concat $ capRest $ splitOn "_" $ map toLower str
     where capRest    (s:xs) = s:(map capitalize xs)
           capRest        [] = []   
 
+cToShell :: String -> String
+cToShell str = map shell $ map toLower str
+    where shell c = if c == '_' then '-' else c
+
 capitalize :: String -> String
 capitalize (s:xs) = (toUpper s) : xs
 capitalize     [] = []

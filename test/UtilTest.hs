@@ -29,3 +29,13 @@ main = hspec $ do
             let input = "fuck_you_trump"
             (cToCamel input) `shouldBe` expected
 
+        it "cToShell `hello_world` should equals `hello-world`" $ do
+            let expected = "hello-world"
+            let input = "hello_world"
+            (cToShell input) `shouldBe` expected
+
+        it "cToShell `fuck_you_trump` should equals `fuck-you-trump`" $ do
+            let expected = "fuck-you-trump"
+            let input = "fuck_you_trump"
+            (cToShell input) `shouldBe` expected
+
