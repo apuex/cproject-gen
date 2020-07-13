@@ -25,7 +25,6 @@ executable cproject-gen
                    , Gen
                    , GenCMake
                    , GenAutotools
-                   , ModelLoader
   -- other-extensions:
   build-depends:
                      base             >= 4.8

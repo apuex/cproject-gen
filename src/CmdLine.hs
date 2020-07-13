@@ -20,7 +20,7 @@ data Options = Options
 
 defaultOptions = Options
     { genCMake     = True
-    , genAutotools = True
+    , genAutotools = False
     , outputDir    = "dist"
     , printHelp    = False
     , printVersion = False

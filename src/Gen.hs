@@ -11,7 +11,6 @@ import           Data.Maybe (fromMaybe)
 import           Prelude         hiding (readFile, writeFile)
 import           Text.XML
 import qualified CmdLine      as CL
-import qualified ModelLoader  as ML
 import qualified GenCMake     as CMake
 import qualified GenAutotools as Autotools
 
@@ -19,7 +18,6 @@ gen :: CL.Options -> String -> IO ()
 gen opts file = do
     when (CL.verbose opts) $ print opts
     Document prologue root epilogue <- readFile def file
-    let model = ML.model root
     let gens = getGens opts
     if null gens
         then hPutStrLn stderr "no generators enabled."

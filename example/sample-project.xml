@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<model name="sample"
+       package="sample"
+       version="1.0.0"
+       dbSchema="sample"
+       journalTable="event_journal"
+       maintainer="xtwxy@hotmail.com">
+
+    <executable name="my-exe"/>
+    <library name="my-lib"/>
+
+</model>
