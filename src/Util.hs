@@ -16,6 +16,9 @@ cToShell :: String -> String
 cToShell str = map shell $ map toLower str
     where shell c = if c == '_' then '-' else c
 
+cToConst :: String -> String
+cToConst str = map toUpper str
+
 capitalize :: String -> String
 capitalize (s:xs) = (toUpper s) : xs
 capitalize     [] = []

@@ -39,3 +39,13 @@ main = hspec $ do
             let input = "fuck_you_trump"
             (cToShell input) `shouldBe` expected
 
+        it "cToConst `hello_world` should equals `HELLO_WORLD`" $ do
+            let expected = "HELLO_WORLD"
+            let input = "hello_world"
+            (cToConst input) `shouldBe` expected
+
+        it "cToConst `fuck_you_trump` should equals `FUCK_YOU_TRUMP`" $ do
+            let expected = "FUCK_YOU_TRUMP"
+            let input = "fuck_you_trump"
+            (cToConst input) `shouldBe` expected
+
