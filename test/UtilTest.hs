@@ -1,3 +1,4 @@
+{-# LANGUAGE QuasiQuotes, OverloadedStrings #-}
 module Main(main) where
 
 import Util

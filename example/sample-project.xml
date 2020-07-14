@@ -6,7 +6,8 @@
        journalTable="event_journal"
        maintainer="xtwxy@hotmail.com">
 
-    <executable name="my-exe"/>
-    <library name="my-lib"/>
+    <executable name="my-exe" />
+
+    <library name="my-lib" />
 
 </model>

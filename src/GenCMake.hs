@@ -17,6 +17,7 @@ import qualified Data.Text.Lazy.IO     as TLIO
 import           Data.Text                (Text)
 import           Control.Monad            (forM_)
 import qualified CmdLine               as CL
+import qualified Util                  as U
 
 
 gen :: CL.Options -> String -> IO ()
@@ -39,7 +40,7 @@ fromElement opts root = do
 genCMakeLists :: CL.Options -> M.Map Name Text -> [Node] -> TL.Text
 genCMakeLists opts attrs children = [lt|
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
-PROJECT(sample)
+PROJECT(#{M.findWithDefault "" "name" attrs})
 
 INCLUDE_DIRECTORIES(include
   ${INCLUDE_DIRECTORIES}
@@ -53,6 +54,7 @@ LINK_DIRECTORIES(
 INCLUDE_DIRECTORIES(
   include
 )
+#{TL.concat $ genTargets opts children}
 |]
 
 genTargets :: CL.Options -> [Node] -> [TL.Text]
@@ -70,42 +72,44 @@ genTargets opts nodes = concat $ map genTarget nodes
 
 genExecutable :: CL.Options -> M.Map Name Text -> [Node] -> TL.Text
 genExecutable opts attrs children = [lt|
-SET(my_exe_SRCS
+SET(#{target}_SRCS
 )
 
-ADD_EXECUTABLE(my-exe ${my_exe_SRCS})
+ADD_EXECUTABLE(#{target} ${#{name}_SRCS})
 
-INSTALL(TARGETS my-exe
+INSTALL(TARGETS #{target}
     CONFIGURATIONS Release
     RUNTIME DESTINATION bin PERMISSIONS WORLD_EXECUTE
     LIBRARY DESTINATION lib PERMISSIONS WORLD_EXECUTE
     ARCHIVE DESTINATION lib)
-INSTALL(TARGETS my-exe
+INSTALL(TARGETS #{target}
     CONFIGURATIONS Debug
     RUNTIME DESTINATION bin PERMISSIONS WORLD_EXECUTE
     LIBRARY DESTINATION lib PERMISSIONS WORLD_EXECUTE
     ARCHIVE DESTINATION lib)
-|]
+|] where name = M.findWithDefault "" "name" attrs
+         target = U.cToShell name
 
 genLibrary :: CL.Options -> M.Map Name Text -> [Node] -> TL.Text
 genLibrary opts attrs children = [lt|
-SET(my_lib_INCLUDES
+SET(#{name}_INCLUDES
 )
-SET(my_lib_SRCS
+SET(#{name}_SRCS
 )
 
-ADD_LIBRARY(my-lib ${my_lib_SRCS})
+ADD_LIBRARY(#{target} ${#{name}_SRCS})
 
-INSTALL(TARGETS my-lib
+INSTALL(TARGETS #{target}
     CONFIGURATIONS Release
     RUNTIME DESTINATION bin PERMISSIONS WORLD_EXECUTE
     LIBRARY DESTINATION lib PERMISSIONS WORLD_EXECUTE
     ARCHIVE DESTINATION lib)
-INSTALL(TARGETS my-lib
+INSTALL(TARGETS #{target}
     CONFIGURATIONS Debug
     RUNTIME DESTINATION bin PERMISSIONS WORLD_EXECUTE
     LIBRARY DESTINATION lib PERMISSIONS WORLD_EXECUTE
     ARCHIVE DESTINATION lib)
-|]
+|] where name = M.findWithDefault "" "name" attrs
+         target = U.cToShell name
 
 

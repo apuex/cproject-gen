@@ -1,25 +1,30 @@
+{-# LANGUAGE QuasiQuotes, OverloadedStrings #-}
 module Util where
 
-import Data.Char
-import Data.List.Split
+import qualified Data.Char           as C
+import qualified Data.Text           as T
 
 
-cToPascal :: String -> String
-cToPascal str = concat $ map capitalize $ splitOn "_" $ map toLower str
+cToPascal :: T.Text -> T.Text
+cToPascal str = T.concat $ map capitalize $ T.splitOn underscore $ T.map C.toLower str
 
-cToCamel :: String -> String
-cToCamel str = concat $ capRest $ splitOn "_" $ map toLower str
+cToCamel :: T.Text -> T.Text
+cToCamel str = T.concat $ capRest $ T.splitOn underscore $ T.map C.toLower str
     where capRest    (s:xs) = s:(map capitalize xs)
           capRest        [] = []   
 
-cToShell :: String -> String
-cToShell str = map shell $ map toLower str
+cToShell :: T.Text -> T.Text
+cToShell str = T.map shell $ T.map C.toLower str
     where shell c = if c == '_' then '-' else c
 
-cToConst :: String -> String
-cToConst str = map toUpper str
+cToConst :: T.Text -> T.Text
+cToConst str = T.toUpper str
 
-capitalize :: String -> String
-capitalize (s:xs) = (toUpper s) : xs
-capitalize     [] = []
+capitalize :: T.Text -> T.Text
+capitalize str = if T.null str then str
+                 else T.cons f t where f = C.toUpper $ T.head str
+                                       t = T.tail str
 
+
+underscore :: T.Text
+underscore = "_"
