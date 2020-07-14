@@ -22,7 +22,7 @@ import qualified Util                  as U
 
 gen :: CL.Options -> String -> IO ()
 gen opts file = do
-    printf "%s: %s\n" (CL.paddingRight ("GenCMake"::String) 12) file
+    -- printf "%s: %s\n" (CL.paddingRight ("GenCMake"::String) 12) file
     Document prologue root epilogue <- readFile def file
     fromElement opts root
 
@@ -30,7 +30,7 @@ fromElement :: CL.Options -> Element -> IO ()
 fromElement opts root = do
     case root of
         Element "model" attrs children -> do
-            mapM_ (\e -> printf "%s -> %s\n" (nameLocalName (fst e)) (snd e)) (M.toList attrs)
+            -- mapM_ (\e -> printf "%s -> %s\n" (nameLocalName (fst e)) (snd e)) (M.toList attrs)
             TLIO.putStrLn $ genCMakeLists opts attrs children
             return ()
         Element name attrs children -> do
@@ -72,7 +72,7 @@ genTargets opts nodes = concat $ map genTarget nodes
 
 genExecutable :: CL.Options -> M.Map Name Text -> [Node] -> TL.Text
 genExecutable opts attrs children = [lt|
-SET(#{target}_SRCS
+SET(#{name}_SRCS
 )
 
 ADD_EXECUTABLE(#{target} ${#{name}_SRCS})
